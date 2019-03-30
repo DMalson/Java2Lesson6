@@ -12,7 +12,7 @@ public class Server {
             System.out.println("Waiting for a client connection...");
 
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Connection with client established" +"\n"+"Ваша беседа"+"\n");
+            System.out.println("Connection with client established.\n"+"Ваша беседа\n" + "==============");
 
             NetService serverService = new NetService(clientSocket);
             serverService.run();

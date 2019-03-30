@@ -19,22 +19,18 @@ public class NetService {
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-        NetListener netListener = new NetListener(dataInputStream);
-        Thread listenerThread = new Thread(netListener);
+        Thread listenerThread = new Thread(new NetListener(dataInputStream));
         listenerThread.setDaemon(true);
         listenerThread.start();
 
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-
         String message = null;
         while (true) {
             message = keyboard.readLine();
             if (!listenerThread.isAlive()) break;
             dataOutputStream.writeUTF(message);
             dataOutputStream.flush();
-            if (message.equalsIgnoreCase("exit")) {
-                break;
-            }
+            if (message.equalsIgnoreCase("exit")) break;
         }
         dataOutputStream.close();
         keyboard.close();
